@@ -26,8 +26,8 @@ public class Card extends ImageView {
         this.value = value;
         this.flipped = false;
         this.matched = false;
-        this.frontImage = new Image(getClass().getResourceAsStream("/card"+value+".png"));
-        this.backImage = new Image(getClass().getResourceAsStream("/cardback.png"));
+        this.frontImage = new Image(getClass().getResourceAsStream("/img/card"+value+".png"));
+        this.backImage = new Image(getClass().getResourceAsStream("/img/cardback.png"));
         setImage(backImage);
         setFitWidth(100);
         setFitHeight(100);
@@ -44,7 +44,7 @@ public class Card extends ImageView {
                         previousCard = Card.this;
                     } else if (!Card.this.matches(previousCard)) {
                         // Si les deux cartes ne correspondent pas, attendez 1 seconde avant de les retourner
-                        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                        PauseTransition pause = new PauseTransition(Duration.seconds(1));
                         pause.setOnFinished(e -> {
                             Card.this.flip();
                             if (previousCard != null) {
@@ -64,6 +64,13 @@ public class Card extends ImageView {
         });
     }
 
+    public boolean matches(Card other,Joueur joueurEnCours) {
+        System.out.println("val carte 1 "+value+ " val carte 2 " + other.value);
+        System.out.println(value == other.value);
+        joueurEnCours.setScore(joueurEnCours.getScore()+5);
+
+        return value == other.value;
+    }
     public boolean matches(Card other) {
         System.out.println("val carte 1 "+value+ " val carte 2 " + other.value);
         System.out.println(value == other.value);

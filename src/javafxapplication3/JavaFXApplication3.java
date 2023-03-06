@@ -12,8 +12,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafxapplication3.miscs.JoueursBox;
+import javafxapplication3.miscs.MemoryGameBoard;
 
 
 /**
@@ -71,7 +72,7 @@ public class JavaFXApplication3 extends Application {
         box.getChildren().addAll(root, droiteBas);
         Scene scene = new Scene(box, 1000, 550);
 
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Jeu du memory !");
         primaryStage.setScene(scene);
 
         primaryStage.show();

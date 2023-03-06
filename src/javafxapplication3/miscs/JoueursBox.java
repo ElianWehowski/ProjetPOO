@@ -1,4 +1,4 @@
-package javafxapplication3;
+package javafxapplication3.miscs;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -65,5 +65,8 @@ public class JoueursBox extends VBox {
                 ((TextField) ((GridPane) this.getChildren().get(1)).getChildren().get(i * 4 + 1)).setStyle("-fx-control-inner-background: white;");
             }
         }
+    }
+    public void setScoreValue(int index, int score) {
+        ((Label) ((GridPane) this.getChildren().get(1)).getChildren().get(index * 4 + 3)).setText(Integer.toString(score));
     }
 }

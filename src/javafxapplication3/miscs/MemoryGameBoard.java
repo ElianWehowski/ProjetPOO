@@ -1,10 +1,9 @@
-package javafxapplication3;
+package javafxapplication3.miscs;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafxapplication3.miscs.Card;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,8 +57,9 @@ public class MemoryGameBoard extends GridPane {
                         if (selectedCard == null) {
                             selectedCard = card;
                         } else {
-                            if (selectedCard.matches(card)) {
+                            if (selectedCard.matches(card,joueursBox.getJoueurs()[joueurEnCours])) {
                                 selectedCard.setMatched(true);
+                                joueursBox.getJoueurs()[joueurEnCours].ajouterPoints(5);
                                 card.setMatched(true);
                                 numMatches++;
                                 // Ajouter 5 points pour le joueur en cours
