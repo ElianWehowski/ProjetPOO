@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class MemoryGameBoard extends GridPane {
-
     private int numRows;
     private int numCols;
     private int numPairs;
@@ -21,7 +20,10 @@ public class MemoryGameBoard extends GridPane {
 
     private int numMatches;
 
-    public MemoryGameBoard(int numRows, int numCols) {
+    private JoueursBox joueursBox;
+    private int joueurEnCours;
+
+    public MemoryGameBoard(int numRows, int numCols, JoueursBox joueursBox) {
         super();
 
         // Initialize properties
@@ -60,13 +62,33 @@ public class MemoryGameBoard extends GridPane {
                                 selectedCard.setMatched(true);
                                 card.setMatched(true);
                                 numMatches++;
+                                // Ajouter 5 points pour le joueur en cours
+                                joueursBox.getJoueurs()[joueurEnCours].ajouterPoints(5);
+                                joueursBox.setJoueurEnCours(joueurEnCours);
                                 if (numMatches == numPairs) {
-                                    Label label = new Label("Bravo c'est termine !");
+                                    Label label = new Label("Bravo c'est terminé !");
                                     add(label, 0, numRows);
+                                }
+                                if (selectedCard != null && selectedCard != card && selectedCard.getId() == card.getId()) {
+                                    // Les cartes correspondent
+                                    numMatches++;
+                                    // Mise à jour du score du joueur en cours
+                                    joueursBox.getJoueurs()[joueurEnCours].setScore(joueursBox.getJoueurs()[joueurEnCours].getScore() + 1);
+                                    selectedCard.setDisable(true);
+                                    card.setDisable(true);
+                                    selectedCard = null;
+                                    // Si toutes les paires ont été trouvées
+                                    if (numMatches == numPairs) {
+                                        // Affichage d'un message de victoire
+                                        System.out.println("Vous avez gagné !");
+                                    }
                                 }
                             } else {
                                 selectedCard.flip();
                                 card.flip();
+                                // Passer au joueur suivant
+                                joueurEnCours = (joueurEnCours + 1) % joueursBox.getJoueurs().length;
+                                joueursBox.setJoueurEnCours(joueurEnCours);
                             }
                             selectedCard = null;
                         }
@@ -74,7 +96,10 @@ public class MemoryGameBoard extends GridPane {
                 }
             }
         });
+
+        // Initialize player turn
+        this.joueursBox = joueursBox;
+        this.joueurEnCours = 0;
+        joueursBox.setJoueurEnCours(joueurEnCours);
     }
-
-
 }

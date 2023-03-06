@@ -16,6 +16,7 @@ public class Card extends ImageView {
     private Image backImage;
 
     private static Card previousCard;
+    private static int score = 0;
 
     public Card(int value) {
         super();
@@ -43,7 +44,7 @@ public class Card extends ImageView {
                         previousCard = Card.this;
                     } else if (!Card.this.matches(previousCard)) {
                         // Si les deux cartes ne correspondent pas, attendez 1 seconde avant de les retourner
-                        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+                        PauseTransition pause = new PauseTransition(Duration.seconds(2));
                         pause.setOnFinished(e -> {
                             Card.this.flip();
                             if (previousCard != null) {
@@ -53,6 +54,9 @@ public class Card extends ImageView {
                         });
                         pause.play();
                     } else {
+                        Card.this.setMatched(true);
+                        previousCard.setMatched(true);
+                        score += 10;
                         previousCard = null;
                     }
                 }
@@ -63,11 +67,8 @@ public class Card extends ImageView {
     public boolean matches(Card other) {
         System.out.println("val carte 1 "+value+ " val carte 2 " + other.value);
         System.out.println(value == other.value);
-        if(value == other.value){
-            System.out.println();
-        }
-        return value == other.value;
 
+        return value == other.value;
     }
 
     public boolean isMatched() {
@@ -83,5 +84,13 @@ public class Card extends ImageView {
             flipped = !flipped;
             setImage(flipped ? frontImage : backImage);
         }
+    }
+
+    public static int getScore() {
+        return score;
+    }
+
+    public static void resetScore() {
+        score = 0;
     }
 }

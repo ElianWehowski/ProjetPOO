@@ -9,7 +9,6 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
@@ -22,33 +21,41 @@ import javafx.stage.Stage;
  */
 public class JavaFXApplication3 extends Application {
 
+    int currentTurn = 0;
+
     @Override
     public void start(Stage primaryStage) {
-        test2 tt = new test2();
-        MemoryGameBoard mgb = new MemoryGameBoard(5, 6);
+        JoueursBox tt = new JoueursBox(); // Liste de joueur
+        MemoryGameBoard mgb = new MemoryGameBoard(5, 6,tt); // Tableau de jeu
+
 
         Button btn = new Button();
-        btn.setText("Say 'Hello World'");
+        btn.setText("Joueur suivant");
         btn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
+
+                currentTurn++;
+                System.out.println(currentTurn);
+                if (currentTurn > 3)
+                    currentTurn = 0;
+                tt.setJoueurEnCours(currentTurn); // appel à la méthode setJoueurEnCours() pour changer la couleur de fond
+
             }
         });
-    HBox box = new HBox();
+        VBox droiteBas = new VBox();
+        HBox box = new HBox();
         GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER_LEFT);
 
         GridPane root2 = new GridPane();
         root2.setAlignment(Pos.CENTER_RIGHT);
 
-        //      root.getChildren().add(btn);
         VBox left = new VBox();
         left.alignmentProperty().set(Pos.CENTER_LEFT);
         left.getChildren().add(mgb);
         left.setLayoutX(20);
-        left.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
         root.getChildren().add(left);
 
@@ -56,12 +63,12 @@ public class JavaFXApplication3 extends Application {
         right.alignmentProperty().set(Pos.CENTER_RIGHT);
         right.setLayoutX(60);
         right.getChildren().add(tt);
-        right.setBorder(new Border(new BorderStroke(Color.RED,BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         root2.getChildren().add(right);
 
         //    root.getChildren().add(mgb);
+        droiteBas.getChildren().addAll(right, btn);
 
-        box.getChildren().addAll(root,root2);
+        box.getChildren().addAll(root, droiteBas);
         Scene scene = new Scene(box, 1000, 550);
 
         primaryStage.setTitle("Hello World!");
